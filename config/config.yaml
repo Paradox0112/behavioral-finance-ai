@@ -1,0 +1,109 @@
+# Behavioral Finance AI Engine Configuration
+
+# Data Processing Configuration
+data:
+  # Default data paths
+  raw_data_path: "data/raw/"
+  processed_data_path: "data/processed/"
+  sample_data_path: "data/sample/"
+  
+  # Data processing parameters
+  cleaning:
+    remove_duplicates: true
+    fill_method: "forward_fill"  # Options: forward_fill, backward_fill, interpolate
+    outlier_detection: true
+    outlier_threshold: 3.0  # Standard deviations
+  
+  # Feature extraction parameters
+  features:
+    momentum_windows: [5, 10, 20]  # Days
+    volatility_windows: [5, 20, 60]  # Days
+    volume_windows: [20, 50]  # Days
+
+# Model Configuration
+models:
+  # Default model parameters
+  behavioral_model:
+    type: "random_forest"  # Options: random_forest, gradient_boosting
+    parameters:
+      n_estimators: 100
+      max_depth: 10
+      random_state: 42
+  
+  # Bias detection models
+  bias_detection:
+    bias_types:
+      - "anchoring_bias"
+      - "confirmation_bias"
+      - "herding_behavior"
+      - "loss_aversion"
+      - "overconfidence"
+    
+    model_parameters:
+      n_estimators: 200
+      max_depth: 15
+      random_state: 42
+
+# Analysis Configuration
+analysis:
+  # Behavioral pattern analysis
+  patterns:
+    momentum:
+      short_term_window: 5
+      medium_term_window: 20
+      long_term_window: 60
+    
+    herding:
+      volume_threshold: 1.5  # Multiple of moving average
+      volatility_percentile: 0.3  # Low volatility threshold
+    
+    loss_aversion:
+      disposition_effect_threshold: 0.1
+      loss_tolerance: -0.02  # 2% loss threshold
+
+# Logging Configuration
+logging:
+  level: "INFO"  # Options: DEBUG, INFO, WARNING, ERROR
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "logs/behavioral_finance.log"
+
+# Output Configuration
+output:
+  # Report generation
+  reports:
+    format: "html"  # Options: html, pdf, json
+    include_plots: true
+    save_path: "reports/"
+  
+  # Model persistence
+  models:
+    save_path: "models/trained/"
+    checkpoint_path: "models/checkpoints/"
+    save_frequency: "epoch"  # Options: epoch, batch, manual
+
+# External Data Sources (Optional)
+external_data:
+  # Financial data APIs
+  apis:
+    alpha_vantage:
+      enabled: false
+      api_key: "YOUR_API_KEY"  # Set in environment or secrets
+    
+    yahoo_finance:
+      enabled: true
+      timeout: 30
+    
+    quandl:
+      enabled: false
+      api_key: "YOUR_API_KEY"  # Set in environment or secrets
+
+# Performance Configuration
+performance:
+  # Parallel processing
+  n_jobs: -1  # Use all available cores
+  batch_size: 1000
+  memory_limit: "8GB"
+  
+  # Caching
+  cache_enabled: true
+  cache_directory: ".cache/"
